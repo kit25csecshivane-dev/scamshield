@@ -201,7 +201,23 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
-#### Option B: Render or Railway (Full-Stack Node.js)
+#### Option B: Vercel (Full-Stack Serverless Deployment)
+PhishGuard is pre-configured for Vercel with `vercel.json` and a serverless API handler (`api/index.ts`).
+
+1. Push your repository to GitHub or GitLab.
+2. In Vercel, click **Add New Project** and import your repository.
+3. **Build & Output Settings**:
+   - Framework Preset: **Vite**
+   - Build Command: `vite build` (or `npm run build`)
+   - Output Directory: `dist`
+4. **Environment Variables**:
+   - In the project settings, add:
+     - `GEMINI_API_KEY`: Your Google Gemini API key
+5. Click **Deploy**.
+   - Vercel automatically deploys the frontend static assets and routes `/api/*` requests to the serverless function in `api/index.ts`.
+   - File persistence uses `/tmp` with in-memory caching to prevent read-only filesystem errors (`EROFS`).
+
+#### Option C: Render or Railway (Full-Stack Node.js Container)
 1. Link your Git repository to **Render** or **Railway**.
 2. Set Build Command: `npm install && npm run build`
 3. Set Start Command: `npm start`

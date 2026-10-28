@@ -6,37 +6,60 @@ import fs from 'fs';
 import path from 'path';
 import { ScanResult, ScanSummaryStats, ScanType } from '../types/threat.js';
 
-const DATA_DIR = path.resolve(process.cwd(), 'data');
+// In-memory fallback cache so Vercel Serverless read-only filesystem never crashes
+let memoryScansCache: ScanResult[] | null = null;
+
+// Determine writable directory (/tmp on Vercel/AWS Lambda, data/ locally)
+const isServerless = !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
+const DATA_DIR = isServerless ? '/tmp' : path.resolve(process.cwd(), 'data');
 const DATA_FILE = path.join(DATA_DIR, 'scans.json');
 
-// Ensure data directory exists
+// Ensure data directory exists with EROFS protection
 function ensureStorage(): void {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-  if (!fs.existsSync(DATA_FILE)) {
-    const initialScans: ScanResult[] = getInitialSeedScans();
-    fs.writeFileSync(DATA_FILE, JSON.stringify(initialScans, null, 2), 'utf-8');
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    if (!fs.existsSync(DATA_FILE)) {
+      const initialScans: ScanResult[] = getInitialSeedScans();
+      fs.writeFileSync(DATA_FILE, JSON.stringify(initialScans, null, 2), 'utf-8');
+      memoryScansCache = initialScans;
+    }
+  } catch (err) {
+    // If filesystem is read-only, silently use in-memory cache
+    if (!memoryScansCache) {
+      memoryScansCache = getInitialSeedScans();
+    }
   }
 }
 
 function readScans(): ScanResult[] {
   try {
     ensureStorage();
-    const data = fs.readFileSync(DATA_FILE, 'utf-8');
-    return JSON.parse(data || '[]');
+    if (fs.existsSync(DATA_FILE)) {
+      const data = fs.readFileSync(DATA_FILE, 'utf-8');
+      const parsed = JSON.parse(data || '[]');
+      memoryScansCache = parsed;
+      return parsed;
+    }
   } catch (err) {
-    console.error('Failed to read scans storage:', err);
-    return [];
+    // Fallback to memory
   }
+  
+  if (!memoryScansCache) {
+    memoryScansCache = getInitialSeedScans();
+  }
+  return memoryScansCache;
 }
 
 function writeScans(scans: ScanResult[]): void {
+  memoryScansCache = scans;
   try {
     ensureStorage();
     fs.writeFileSync(DATA_FILE, JSON.stringify(scans, null, 2), 'utf-8');
   } catch (err) {
-    console.error('Failed to write scans storage:', err);
+    // Read-only filesystem warning, memory cache retained
+    console.warn('Storage write fallback to in-memory store:', (err as any)?.message);
   }
 }
 

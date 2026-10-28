@@ -59,8 +59,19 @@ export default function App() {
       });
 
       if (!res.ok) {
-        const errJson = await res.json().catch(() => ({}));
-        throw new Error(errJson.error || 'Failed to complete URL scan');
+        let errorMsg = 'Failed to complete URL scan';
+        try {
+          const contentType = res.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+            const errJson = await res.json();
+            errorMsg = errJson.error || errorMsg;
+          } else {
+            errorMsg = `Server responded with status ${res.status}. If deployed on Vercel, ensure GEMINI_API_KEY is configured in Environment Variables.`;
+          }
+        } catch {
+          errorMsg = `Server error (${res.status})`;
+        }
+        throw new Error(errorMsg);
       }
 
       const scanResult: ScanResult = await res.json();
@@ -86,8 +97,19 @@ export default function App() {
       });
 
       if (!res.ok) {
-        const errJson = await res.json().catch(() => ({}));
-        throw new Error(errJson.error || 'Failed to complete message scan');
+        let errorMsg = 'Failed to complete message scan';
+        try {
+          const contentType = res.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+            const errJson = await res.json();
+            errorMsg = errJson.error || errorMsg;
+          } else {
+            errorMsg = `Server responded with status ${res.status}. If deployed on Vercel, ensure GEMINI_API_KEY is configured in Environment Variables.`;
+          }
+        } catch {
+          errorMsg = `Server error (${res.status})`;
+        }
+        throw new Error(errorMsg);
       }
 
       const scanResult: ScanResult = await res.json();
