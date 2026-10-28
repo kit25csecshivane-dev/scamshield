@@ -1,0 +1,369 @@
+[
+  {
+    "id": "scan-1793179419663-7znt3",
+    "timestamp": "2026-10-28T09:23:39.663Z",
+    "target": "USPS: Your parcel cannot be delivered. Update address within 24 hours at https://usps-track.top/redeliver",
+    "type": "message",
+    "subtype": "sms",
+    "riskScore": 88,
+    "verdict": "MALICIOUS_PHISHING",
+    "confidence": 0.881,
+    "threatType": "Targeted Social Engineering Scam",
+    "impersonatedEntity": null,
+    "indicators": [
+      {
+        "id": "urgency-1",
+        "name": "Artificial Time Pressure (Urgent / 24h)",
+        "severity": "high",
+        "category": "urgency",
+        "description": "Attackers create urgent psychological pressure to rush victims into bypassing rational scrutiny.",
+        "evidence": "within 24 hours"
+      },
+      {
+        "id": "delivery-postal-/-courier-brand-impersonation",
+        "name": "Postal / Courier Brand Impersonation",
+        "severity": "high",
+        "category": "urgency",
+        "description": "Impersonating postal couriers or toll authorities with missing parcel lures is a major smishing vector.",
+        "evidence": "USPS"
+      }
+    ],
+    "explanation": "The target exhibits 2 elevated threat markers according to the PhishGuard heuristic and logistic regression baseline classifier.",
+    "technicalDetails": {
+      "messageLength": 105,
+      "urgencyScore": 1,
+      "extractedLinks": [
+        "https://usps-track.top/redeliver"
+      ]
+    },
+    "recommendedActions": [
+      "Do NOT open the link or enter sensitive credentials.",
+      "Do not reply or provide 2FA tokens, gift cards, or wire transfers.",
+      "Navigate directly to the official organization website by typing the verified URL in your browser.",
+      "Report the indicator to your organization’s Security Operations Center (SOC)."
+    ],
+    "uncertaintyCaveat": "DISCLAIMER: Threat classification models evaluate structural, lexical, and behavioral markers. Zero-day attacks and legitimate compromised infrastructure may appear benign. Conversely, novel benign sites may trigger statistical false positives.",
+    "engineUsed": "ml-baseline-heuristic",
+    "mlBaseline": {
+      "score": 88,
+      "verdict": "MALICIOUS_PHISHING",
+      "confidence": 0.881,
+      "featuresExtracted": {
+        "is_ip_host": 0,
+        "is_punycode": 0,
+        "has_at_symbol": 0,
+        "suspicious_tld": 1,
+        "brand_spoof": 0,
+        "high_entropy": 0,
+        "excessive_subdomains": 0,
+        "credential_path": 0,
+        "excessive_hyphens": 0,
+        "abnormal_length": 0,
+        "urgency_cues": 1,
+        "credential_lure": 0,
+        "financial_lure": 0
+      },
+      "modelName": "PhishGuard-LR-Baseline-v2.4"
+    }
+  },
+  {
+    "id": "scan-1793179283037-awqw1",
+    "timestamp": "2026-10-28T09:21:23.037Z",
+    "target": "https://paypa1-account-verify.xyz/login",
+    "type": "url",
+    "riskScore": 100,
+    "verdict": "MALICIOUS_PHISHING",
+    "confidence": 0.998,
+    "threatType": "Credential Harvesting Phishing Link",
+    "impersonatedEntity": "PayPal",
+    "indicators": [
+      {
+        "id": "suspicious-tld",
+        "name": "High-Risk Top Level Domain (TLD)",
+        "severity": "medium",
+        "category": "domain",
+        "description": "The .xyz top-level domain has a statistically high correlation with disposable phishing registrations.",
+        "evidence": ".xyz"
+      },
+      {
+        "id": "impersonation-paypal",
+        "name": "Brand Impersonation (PayPal)",
+        "severity": "critical",
+        "category": "reputation",
+        "description": "Hostname contains brand identifiers for PayPal, but is registered under an unauthorized root domain (paypa1-account-verify.xyz).",
+        "evidence": "Domain: paypa1-account-verify.xyz vs Official: paypal.com"
+      },
+      {
+        "id": "credential-harvest-path",
+        "name": "Authentication / Credential Harvesting Path",
+        "severity": "medium",
+        "category": "credential_lure",
+        "description": "The URL path specifically directs users to verification, login, or security credentials submission.",
+        "evidence": "login"
+      },
+      {
+        "id": "high-entropy-domain",
+        "name": "High Lexical Randomness (Entropy)",
+        "severity": "medium",
+        "category": "domain",
+        "description": "Domain exhibits high Shannon randomness, characteristic of algorithmic domain generation or disposable infrastructure.",
+        "evidence": "Entropy score: 4.02 (threshold > 3.8)"
+      }
+    ],
+    "explanation": "The target exhibits 4 elevated threat markers according to the PhishGuard heuristic and logistic regression baseline classifier.",
+    "technicalDetails": {
+      "domain": "paypa1-account-verify.xyz",
+      "entropy": 4.023,
+      "hasIpHost": false,
+      "isPunycode": false,
+      "subdomainCount": 2,
+      "suspiciousTld": "xyz",
+      "pathKeywords": [
+        "login"
+      ],
+      "homoglyphTarget": "PayPal",
+      "impersonatedBrand": "PayPal"
+    },
+    "recommendedActions": [
+      "Do NOT open the link or enter sensitive credentials.",
+      "Do not reply or provide 2FA tokens, gift cards, or wire transfers.",
+      "Navigate directly to the official organization website by typing the verified URL in your browser.",
+      "Report the indicator to your organization’s Security Operations Center (SOC)."
+    ],
+    "uncertaintyCaveat": "DISCLAIMER: Threat classification models evaluate structural, lexical, and behavioral markers. Zero-day attacks and legitimate compromised infrastructure may appear benign. Conversely, novel benign sites may trigger statistical false positives.",
+    "engineUsed": "ml-baseline-heuristic",
+    "mlBaseline": {
+      "score": 100,
+      "verdict": "MALICIOUS_PHISHING",
+      "confidence": 0.998,
+      "featuresExtracted": {
+        "is_ip_host": 0,
+        "is_punycode": 0,
+        "has_at_symbol": 0,
+        "suspicious_tld": 1,
+        "brand_spoof": 1,
+        "high_entropy": 1,
+        "excessive_subdomains": 0,
+        "credential_path": 1,
+        "excessive_hyphens": 0,
+        "abnormal_length": 0,
+        "urgency_cues": 0,
+        "credential_lure": 0,
+        "financial_lure": 0
+      },
+      "modelName": "PhishGuard-LR-Baseline-v2.4"
+    }
+  },
+  {
+    "id": "scan-seed-1",
+    "timestamp": "2026-10-28T07:21:23.037Z",
+    "target": "https://paypa1-security-verification.xyz/webscr/login?cmd=_session",
+    "type": "url",
+    "riskScore": 96,
+    "verdict": "MALICIOUS_PHISHING",
+    "confidence": 0.98,
+    "threatType": "Credential Harvesting Phishing Link",
+    "impersonatedEntity": "PayPal",
+    "indicators": [
+      {
+        "id": "ind-1",
+        "name": "Brand Typosquatting (PayPal)",
+        "severity": "critical",
+        "category": "reputation",
+        "description": "Domain replaces letter \"l\" with numeral \"1\" (paypa1).",
+        "evidence": "paypa1-security-verification.xyz"
+      },
+      {
+        "id": "ind-2",
+        "name": "High-Risk Top Level Domain",
+        "severity": "medium",
+        "category": "domain",
+        "description": "TLD .xyz has high volume of malicious disposable domains.",
+        "evidence": ".xyz"
+      },
+      {
+        "id": "ind-3",
+        "name": "Classic Authentication Path Injection",
+        "severity": "high",
+        "category": "credential_lure",
+        "description": "Path mimics legacy PayPal IPN login handler (/webscr/login).",
+        "evidence": "/webscr/login?cmd=_session"
+      }
+    ],
+    "explanation": "Critical credential harvesting domain spoofing PayPal. The domain deliberately typo-squats the registered trademark and leads directly to a credential exfiltration script.",
+    "technicalDetails": {
+      "domain": "paypa1-security-verification.xyz",
+      "entropy": 3.92,
+      "hasIpHost": false,
+      "isPunycode": false,
+      "subdomainCount": 2,
+      "suspiciousTld": "xyz",
+      "pathKeywords": [
+        "login",
+        "webscr",
+        "cmd=_login"
+      ],
+      "impersonatedBrand": "PayPal"
+    },
+    "recommendedActions": [
+      "Do not visit the URL or enter credentials.",
+      "Block paypa1-security-verification.xyz at perimeter DNS/firewall.",
+      "Report to PayPal Anti-Phishing team (spoof@paypal.com)."
+    ],
+    "uncertaintyCaveat": "Deterministic indicators confirm active brand impersonation and credential lure.",
+    "engineUsed": "gemini-ai",
+    "starred": true
+  },
+  {
+    "id": "scan-seed-2",
+    "timestamp": "2026-10-28T04:21:23.037Z",
+    "target": "USPS Notice: Your package 940011189922 could not be delivered due to an incorrect house number. Update your details within 24 hours at https://us-postal-redeliver.top/tracking to prevent return to sender.",
+    "type": "message",
+    "subtype": "sms",
+    "riskScore": 92,
+    "verdict": "MALICIOUS_PHISHING",
+    "confidence": 0.97,
+    "threatType": "Postal Courier Smishing (SMS Phishing)",
+    "impersonatedEntity": "USPS",
+    "indicators": [
+      {
+        "id": "ind-4",
+        "name": "Artificial 24-Hour Time Pressure",
+        "severity": "high",
+        "category": "urgency",
+        "description": "Imposes short deadline to panic the victim into immediate action without verification.",
+        "evidence": "within 24 hours"
+      },
+      {
+        "id": "ind-5",
+        "name": "Postal Delivery Impersonation",
+        "severity": "high",
+        "category": "reputation",
+        "description": "Classic courier redelivery scam requesting personal address and credit card fee.",
+        "evidence": "package could not be delivered"
+      },
+      {
+        "id": "ind-6",
+        "name": "Suspicious TLD in Link",
+        "severity": "high",
+        "category": "technical",
+        "description": "Extracted link uses .top domain rather than official usps.com.",
+        "evidence": "us-postal-redeliver.top"
+      }
+    ],
+    "explanation": "Standard mass-delivery smishing scam designed to harvest credit cards and personal identities under the guise of redelivering a fictitious postal parcel.",
+    "technicalDetails": {
+      "messageLength": 215,
+      "urgencyScore": 1,
+      "extractedLinks": [
+        "https://us-postal-redeliver.top/tracking"
+      ],
+      "impersonatedBrand": "USPS"
+    },
+    "recommendedActions": [
+      "Delete SMS message immediately.",
+      "Do not click the link or pay any redelivery fee.",
+      "Forward SMS to 7726 (SPAM) for carrier-level blocking."
+    ],
+    "uncertaintyCaveat": "Verified smishing pattern with unauthorized lookalike courier domain.",
+    "engineUsed": "gemini-ai"
+  },
+  {
+    "id": "scan-seed-3",
+    "timestamp": "2026-10-27T09:21:23.037Z",
+    "target": "https://github.com/torvalds/linux",
+    "type": "url",
+    "riskScore": 4,
+    "verdict": "SAFE",
+    "confidence": 0.96,
+    "threatType": "Verified Benign Developer Repository",
+    "impersonatedEntity": null,
+    "indicators": [],
+    "explanation": "Official repository hosted on legitimate github.com domain. No suspicious lexical, typosquatting, or redirection markers detected.",
+    "technicalDetails": {
+      "domain": "github.com",
+      "entropy": 2.75,
+      "hasIpHost": false,
+      "isPunycode": false,
+      "subdomainCount": 2,
+      "suspiciousTld": null,
+      "pathKeywords": []
+    },
+    "recommendedActions": [
+      "Standard development browsing.",
+      "Ensure HTTPS connection remains verified by your browser certificate validator."
+    ],
+    "uncertaintyCaveat": "Target domain is verified, but remember that legitimate platforms can occasionally host malicious third-party user uploads.",
+    "engineUsed": "gemini-ai"
+  },
+  {
+    "id": "scan-seed-4",
+    "timestamp": "2026-10-26T09:21:23.037Z",
+    "target": "URGENT: Executive Wire Transfer Authorization required. Wire $42,500 to account #88129-C by 3:00 PM today. Do not call, I am currently in a board meeting.",
+    "type": "message",
+    "subtype": "email",
+    "riskScore": 88,
+    "verdict": "MALICIOUS_PHISHING",
+    "confidence": 0.94,
+    "threatType": "Business Email Compromise (BEC / CEO Fraud)",
+    "impersonatedEntity": "Corporate Executive",
+    "indicators": [
+      {
+        "id": "ind-7",
+        "name": "Executive Wire Transfer Solicitation",
+        "severity": "critical",
+        "category": "credential_lure",
+        "description": "Unscheduled high-value wire transfer demand.",
+        "evidence": "Wire $42,500"
+      },
+      {
+        "id": "ind-8",
+        "name": "Out-of-Band Channel Blockade",
+        "severity": "high",
+        "category": "linguistic",
+        "description": "Explicit instruction discouraging phone calls to prevent verbal confirmation.",
+        "evidence": "Do not call, I am currently in a board meeting"
+      }
+    ],
+    "explanation": "Hallmark indicators of Business Email Compromise (BEC). Attackers frequently pose as executives in meetings to bypass multi-party financial authorization protocols.",
+    "technicalDetails": {
+      "messageLength": 172,
+      "urgencyScore": 1,
+      "extractedLinks": []
+    },
+    "recommendedActions": [
+      "Hold all financial disbursements.",
+      "Verbally verify payment authorization using a pre-established internal telephone directory."
+    ],
+    "uncertaintyCaveat": "Heuristic and AI models flag high social engineering risk. Out-of-band human verification is mandatory.",
+    "engineUsed": "gemini-ai",
+    "starred": true
+  },
+  {
+    "id": "scan-seed-5",
+    "timestamp": "2026-10-25T09:21:23.037Z",
+    "target": "https://docs.google.com/document/d/1yR4wX_presentation/edit",
+    "type": "url",
+    "riskScore": 8,
+    "verdict": "SAFE",
+    "confidence": 0.92,
+    "threatType": "Clean Cloud Collaboration Asset",
+    "impersonatedEntity": null,
+    "indicators": [],
+    "explanation": "Authentic Google Docs workspace URL. Uses official Google root domain and standard document identifier structure.",
+    "technicalDetails": {
+      "domain": "docs.google.com",
+      "entropy": 3.12,
+      "hasIpHost": false,
+      "isPunycode": false,
+      "subdomainCount": 3,
+      "suspiciousTld": null,
+      "pathKeywords": []
+    },
+    "recommendedActions": [
+      "Exercise normal discretion when opening shared documents from external unverified senders."
+    ],
+    "uncertaintyCaveat": "The host domain is legitimate; however, public cloud services can sometimes be utilized by attackers to share deceptive lure documents.",
+    "engineUsed": "gemini-ai"
+  }
+]

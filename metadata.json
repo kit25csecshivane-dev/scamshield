@@ -1,0 +1,6 @@
+{
+  "name": "PhishGuard – AI Phishing & Scam Detection",
+  "description": "Enterprise-grade AI-powered phishing, scam URL, and malicious message threat intelligence and detection platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
